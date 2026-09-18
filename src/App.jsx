@@ -225,7 +225,7 @@ export default function App() {
     <main>
       {/* HERO */}
       <section className="hero" id="top">
-        <canvas ref={netCanvasRef}></canvas>
+        <canvas className="net-canvas" ref={netCanvasRef}></canvas>
         <div className="wrap hero-inner">
           <div className="hero-copy">
             <p className="eyebrow reveal">InvestHack · October 2026</p>

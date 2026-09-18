@@ -54,7 +54,7 @@
 
   /* HERO */
   .hero { position: relative; overflow: hidden; padding-top: 150px; padding-bottom: 80px; }
-  #net { position: absolute; inset: 0; z-index: -1; opacity: 0.3; }
+  .net-canvas { position: absolute; inset: 0; z-index: -1; opacity: 0.3; }
   h1.title { font-size: clamp(2.1rem, 4.6vw, 3.4rem); font-weight: 700; line-height: 1.14; margin-top: 20px; text-wrap: balance; max-width: 720px; }
   .hero-sub { margin-top: 18px; max-width: 560px; font-size: 1.1rem; font-weight: 300; line-height: 1.6; color: var(--muted-foreground); }
 
