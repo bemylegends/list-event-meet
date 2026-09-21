@@ -21,7 +21,7 @@ const sessions = [
     speaker: "Varun Malik",
     company: "Founder, Konsälidön",
     title: "The Term Sheet Question Most Founders Get Wrong",
-    photo: "https://belegends.club/api/files/pbc_1321337024/hkbt1im79iet34j/varun_recap_speaking_ffywfml5jk.webp",
+    photo: "https://belegends.club/api/files/pbc_2443081517/m0nw01p7ifx5xus/varun_baner_8miqz1fy27.webp",
     about: "Founder of Konsälidön. Varun built and led consulting practices at PwC, Protiviti and Encreate, before stepping back from day-to-day operating roles to focus on what comes next.",
     bio: "His thesis now guides a run of micro-investments designed to help founders understand an exponential future, move past fear, and negotiate from a position that actually holds up.",
     hear: "Not valuation — leverage. Why the clause founders skim past is usually the one that decides who really controls the company."
@@ -33,7 +33,7 @@ const sessions = [
     speaker: "Walied Albasheer",
     company: "Managing Partner, Intuitio Ventures",
     title: "What Actually Kills a Deal in the First Five Minutes",
-    photo: "https://belegends.club/api/files/pbc_1321337024/o3lfehk0n70t7o6/walied_recap_speaker_kn68wsgc1i.webp",
+    photo: "https://belegends.club/api/files/pbc_2443081517/limyhdr7l2k2qzo/walied_baner_4uq2nlyted.webp",
     about: "Founder &amp; Managing Partner at Intuitio Ventures, and Founder &amp; CEO of Inbound LLC. Walied has been building and backing technology companies since 1996, across the UAE, Estonia and the US.",
     bio: "Author of <i>The Slop Stack</i>, a four-layer taxonomy of AI-generated mediocrity in startups. Has founded 7 companies (4 folded) and reviewed 265+ ventures through his own fund.",
     hear: "His line: <i>\"If you're a founder, you have to own your own numbers.\"</i> The tells that end a conversation before the deck is even open."
