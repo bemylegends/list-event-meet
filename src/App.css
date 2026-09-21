@@ -233,6 +233,28 @@
   .final-cta p { margin-top: 16px; color: var(--muted-foreground); max-width: 460px; margin-left: auto; margin-right: auto; }
   .final-cta .btn { margin-top: 28px; }
 
+  .pillars { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 40px; }
+  .pillar {
+    display: inline-flex; align-items: center; gap: 8px; border: 1px solid var(--border);
+    padding: 10px 18px; border-radius: 999px; font-size: 0.78rem; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.12em; color: var(--foreground);
+  }
+  .pillar svg { color: var(--primary); width: 16px; height: 16px; }
+
+  .legends-stats {
+    margin-top: 36px; display: grid; grid-template-columns: 1fr; border: 1px solid var(--border);
+    border-radius: var(--radius-2xl); overflow: hidden;
+  }
+  @media (min-width: 700px) { .legends-stats { grid-template-columns: repeat(3,1fr); } }
+  .legends-stat { padding: 28px 30px; border-top: 1px solid var(--border); display: flex; align-items: baseline; gap: 14px; background: var(--card); }
+  .legends-stats .legends-stat:first-child { border-top: none; }
+  @media (min-width: 700px) {
+    .legends-stat { border-top: none; border-left: 1px solid var(--border); }
+    .legends-stats .legends-stat:first-child { border-left: none; }
+  }
+  .legends-stat .num { font-size: 1.9rem; font-weight: 800; color: var(--primary); letter-spacing: -0.02em; white-space: nowrap; }
+  .legends-stat .cap { font-size: 0.76rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted-foreground); line-height: 1.4; }
+
   footer { border-top: 1px solid var(--border); }
   .foot-inner { display: flex; flex-direction: column; gap: 16px; padding: 36px 0; }
   @media (min-width: 700px) { .foot-inner { flex-direction: row; justify-content: space-between; align-items: center; } }

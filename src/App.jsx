@@ -592,6 +592,29 @@ export default function App() {
           </div>
         </div>
       </section>
+
+      {/* ABOUT LEGENDS */}
+      <section id="about-legends">
+        <div className="wrap">
+          <p className="eyebrow reveal">About Legends</p>
+          <h2 className="reveal" style={{marginTop: '16px', fontSize: 'clamp(1.8rem,3.6vw,2.5rem)', maxWidth: '600px'}}>The AI-powered private network behind what's next.</h2>
+          <p className="reveal" style={{marginTop: '18px', maxWidth: '640px', fontSize: '1.05rem', lineHeight: '1.65', color: 'var(--muted-foreground)'}}>Legends puts the most active cross-border founders, CEOs and investors in one room — to swap what works and back each other when things get rough. Sessions like this InvestHack are the way in. Membership opens by invitation, to those who take part.</p>
+
+          <div className="pillars reveal">
+            <span className="pillar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M3 10l9-6 9 6"/><path d="M5 10v9M10 10v9M14 10v9M19 10v9"/><path d="M3 19h18"/></svg>Capital</span>
+            <span className="pillar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="6" cy="7" r="2.5"/><circle cx="18" cy="7" r="2.5"/><circle cx="12" cy="18" r="2.5"/><path d="M8 8.3L10.3 16M16 8.3L13.7 16"/></svg>Connections</span>
+            <span className="pillar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M12 3l1.6 4.8L18 9l-4.4 1.2L12 15l-1.6-4.8L6 9l4.4-1.2z"/><path d="M19 15l.7 2 2 .7-2 .7-.7 2-.7-2-2-.7 2-.7z"/></svg>Experiences</span>
+            <span className="pillar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M9 18V5l10-2v13"/><circle cx="6" cy="18" r="2.5"/><circle cx="16" cy="16" r="2.5"/></svg>Culture</span>
+            <span className="pillar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r="0.8"/></svg>Impact</span>
+          </div>
+
+          <div className="legends-stats reveal">
+            <div className="legends-stat"><span className="num">1,300+</span><span className="cap">Matchmakings<br />in GCC</span></div>
+            <div className="legends-stat"><span className="num">80+</span><span className="cap">Private<br />gatherings</span></div>
+            <div className="legends-stat"><span className="num">30+</span><span className="cap">Countries<br />represented</span></div>
+          </div>
+        </div>
+      </section>
     </main>
 
     <footer>
