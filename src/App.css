@@ -99,7 +99,7 @@
   .mini-name { font-size: 0.98rem; font-weight: 700; color: #fff; line-height: 1.2; }
   .mini-role { margin-top: 3px; font-size: 0.76rem; color: rgba(255,255,255,0.8); line-height: 1.2; }
 
-  .from-strip { padding: 64px 0 56px; overflow: hidden; }
+  .from-strip { padding: 86px 0 56px; overflow: hidden; }
   .from-strip .lbl {
     display: block; text-align: center; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.16em;
     text-transform: uppercase; color: var(--muted-foreground); margin-bottom: 30px;

@@ -283,7 +283,7 @@ export default function App() {
       </section>
 
       {/* SPEAKERS GRID */}
-      <section id="speakers" style={{padding: '180px 0'}}>
+      <section id="speakers" style={{padding: '145px 0'}}>
         <div className="wrap">
           <p className="eyebrow reveal">Who's been in the room</p>
           <h2 className="reveal" style={{marginTop: '16px', fontSize: 'clamp(1.6rem,3vw,2.2rem)'}}>Every speaker runs their own deal, not a slide</h2>
@@ -413,8 +413,8 @@ export default function App() {
         </div>
         <div className="wrap" style={{position: 'relative', zIndex: '1'}}>
           <p className="eyebrow reveal">Why InvestHack</p>
-          <h2 className="reveal why-title-oneline" style={{marginTop: '16px', maxWidth: '680px'}}>Twenty investors, twenty different answers</h2>
-          <p className="reveal" style={{marginTop: '16px', maxWidth: '600px', fontSize: '1.14rem', color: 'var(--muted-foreground)', lineHeight: '1.6'}}>A new one every Tuesday, none of them reading from the same playbook — that's the entire premise.</p>
+          <h2 className="reveal why-title-oneline" style={{marginTop: '16px', maxWidth: '680px'}}>Four investors, four different answers</h2>
+          <p className="reveal" style={{marginTop: '16px', maxWidth: '600px', fontSize: '1.14rem', color: 'var(--muted-foreground)', lineHeight: '1.6'}}>A new one every Tuesday this October, none of them reading from the same playbook — that's the entire premise.</p>
 
           <div className="why-grid-big">
             <div className="why-big-item reveal">
