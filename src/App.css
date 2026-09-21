@@ -85,6 +85,9 @@
     transition: transform 0.9s cubic-bezier(.22,.61,.36,1), opacity 0.9s ease;
     will-change: transform, opacity;
   }
+  .mini-card img {
+    position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: top center;
+  }
   .mini-badge {
     position: absolute; top: 12px; left: 12px; font-size: 0.62rem; font-weight: 700; letter-spacing: 0.08em;
     color: var(--primary-foreground); background: rgba(255,255,255,0.75); padding: 4px 9px; border-radius: 999px;
@@ -116,9 +119,10 @@
   .speaker-gc-photo {
     width: 100%; aspect-ratio: 3/4;
     background: linear-gradient(160deg, #ece2c8, #c6a768);
-    display: flex; align-items: center; justify-content: center;
+    display: flex; align-items: center; justify-content: center; overflow: hidden;
     font-size: 1.6rem; font-weight: 700; color: rgba(21,19,15,0.3);
   }
+  .speaker-gc-photo img { object-position: top center; }
   .speaker-gc-text { padding: 18px 20px 22px; }
   .speaker-gc-role { font-size: 0.78rem; font-weight: 700; color: var(--foreground); }
   .speaker-gc-company { margin-top: 4px; font-size: 0.84rem; font-weight: 600; color: var(--primary); }
@@ -193,6 +197,10 @@
   .modal-close {
     position: absolute; top: 18px; right: 18px; width: 36px; height: 36px; border-radius: 999px;
     border: 1px solid var(--border); background: transparent; color: var(--muted-foreground); cursor: pointer;
+  }
+  .modal-photo {
+    width: 64px; height: 64px; border-radius: 999px; object-fit: cover; object-position: top center;
+    border: 1px solid var(--border); display: block; margin-bottom: 14px;
   }
   .modal-name { font-size: 1.35rem; font-weight: 700; color: var(--primary); line-height: 1.2; }
   .modal-date { margin-top: 6px; font-size: 1.05rem; font-weight: 600; color: var(--foreground); }

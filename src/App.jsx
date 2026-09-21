@@ -6,41 +6,49 @@ const sessions = [
     tag: "InvestHack <b>#06</b>",
     date: "Tuesday, 6 October 2026",
     traits: "Founder · Investor · Two Exits",
-    speaker: "Speaker Name",
+    speaker: "Janneke Niessen",
+    company: "Founding Partner, CapitalT",
     title: "How to Get a Yes Before You Have Revenue",
-    about: "Placeholder background — replace with the confirmed investor's real bio: where they studied, the fund or firm they're with now, and the path that got them there.",
-    bio: "Backs pre-seed and seed founders before there's a product to point to. Extended bio placeholder — replace with the confirmed investor's real track record, fund, and check history once they're locked in.",
-    hear: "What actually gets checked when there's no P&amp;L to point to — and the two things that matter more than a working product at this stage."
+    photo: "https://belegends.club/api/files/pbc_2443081517/nkx8sv2d9mrxvkq/janneke_niessen_l_q_mn6b93nrqu.png",
+    about: "Founding Partner at CapitalT, serial entrepreneur and investor. Janneke co-founded DQ&amp;A and Improve Digital, scaled both internationally, and exited them before moving to the other side of the table.",
+    bio: "Now backs pre-seed founders in Climate Tech and the Future of Work — typically committing €500K–€1.2M, and up to €2.5M for the right team, before there's a product or revenue to point to.",
+    hear: "Her line on this: <i>\"Before revenue, the team is the evidence.\"</i> What she actually checks when there's no P&amp;L — and why two exits taught her to bet on people first."
   },
   {
     tag: "InvestHack <b>#07</b>",
     date: "Tuesday, 13 October 2026",
-    traits: "Investor · Operator · Growth Stage",
-    speaker: "Speaker Name",
+    traits: "Entrepreneur · Investor · Ex-PwC",
+    speaker: "Varun Malik",
+    company: "Founder, Konsälidön",
     title: "The Term Sheet Question Most Founders Get Wrong",
-    about: "Placeholder background — replace with the confirmed investor's real bio: where they studied, the fund or firm they're with now, and the path that got them there.",
-    bio: "Runs growth-stage diligence and negotiates the clauses founders skim past. Extended bio placeholder — replace with the confirmed investor's real track record, fund, and check history once they're locked in.",
-    hear: "Not valuation — control. The specific clauses that quietly cost founders more than a lower price would have."
+    photo: "https://belegends.club/api/files/pbc_2443081517/m0nw01p7ifx5xus/varun_quote_doz79zzg7u.webp",
+    about: "Founder of Konsälidön. Varun built and led consulting practices at PwC, Protiviti and Encreate, before stepping back from day-to-day operating roles to focus on what comes next.",
+    bio: "His thesis now guides a run of micro-investments designed to help founders understand an exponential future, move past fear, and negotiate from a position that actually holds up.",
+    hear: "Not valuation — leverage. Why the clause founders skim past is usually the one that decides who really controls the company."
   },
   {
     tag: "InvestHack <b>#08</b>",
     date: "Tuesday, 20 October 2026",
-    traits: "Ex-Founder · Angel Investor",
-    speaker: "Speaker Name",
+    traits: "Serial Founder · VC · Since 1996",
+    speaker: "Walied Albasheer",
+    company: "Managing Partner, Intuitio Ventures",
     title: "What Actually Kills a Deal in the First Five Minutes",
-    about: "Placeholder background — replace with the confirmed investor's real bio: where they studied, the fund or firm they're with now, and the path that got them there.",
-    bio: "A former founder who now writes angel checks, pattern-matching from having built and sold. Extended bio placeholder — replace with the confirmed investor's real track record once they're locked in.",
-    hear: "The tells that end a conversation before the deck is even open — and the ones founders wrongly think matter more than they do."
+    photo: "https://belegends.club/api/files/pbc_2443081517/limyhdr7l2k2qzo/walied_quote_6m7wfe64io.webp",
+    about: "Founder &amp; Managing Partner at Intuitio Ventures, and Founder &amp; CEO of Inbound LLC. Walied has been building and backing technology companies since 1996, across the UAE, Estonia and the US.",
+    bio: "Author of <i>The Slop Stack</i>, a four-layer taxonomy of AI-generated mediocrity in startups. Has founded 7 companies (4 folded) and reviewed 265+ ventures through his own fund.",
+    hear: "His line: <i>\"If you're a founder, you have to own your own numbers.\"</i> The tells that end a conversation before the deck is even open."
   },
   {
     tag: "InvestHack <b>#09</b>",
     date: "Tuesday, 27 October 2026",
     traits: "Family Office · Direct Investor",
-    speaker: "Speaker Name",
+    speaker: "Alex Felman",
+    company: "General Partner, Felman Family Office",
     title: "Why Some $2M Checks Take Longer Than $20M Ones",
-    about: "Placeholder background — replace with the confirmed investor's real bio: where they studied, the fund or firm they're with now, and the path that got them there.",
-    bio: "Deploys family-office capital slower and smaller than a fund. Extended bio placeholder — replace with the confirmed investor's real track record once they're locked in.",
-    hear: "Why check size and diligence speed don't move together the way founders assume, and how to see a slow round coming."
+    photo: "https://belegends.club/api/files/pbc_2443081517/kfzgg99w8mivqcf/alex_f_l_q_rd9qlb3hjv.png",
+    about: "General Partner at Felman Family Office and Founder of Exponential U. Trained in molecular toxicology and bio-entrepreneurship before moving into venture building and investing.",
+    bio: "Leads technology investments across biotech, healthcare, agriculture and energy — roughly 90% direct, 10% via funds — with an 8–10 year minimum horizon and 1–2 years spent building the relationship before he commits.",
+    hear: "His line: <i>\"Buy till exit.\"</i> Why check size and diligence speed don't move together the way founders assume."
   }
 ];
 
@@ -247,10 +255,13 @@ export default function App() {
 
           <div className="hero-carousel reveal">
             <div className="hero-track" ref={heroTrackRef}>
-              <div className="mini-card"><span className="mini-badge">LEGENDS</span><div className="mini-info"><div className="mini-name">Speaker Name</div><div className="mini-role">Founder &amp; Investor</div></div></div>
-              <div className="mini-card"><span className="mini-badge">LEGENDS</span><div className="mini-info"><div className="mini-name">Speaker Name</div><div className="mini-role">Family Office</div></div></div>
-              <div className="mini-card"><span className="mini-badge">LEGENDS</span><div className="mini-info"><div className="mini-name">Speaker Name</div><div className="mini-role">Growth Investor</div></div></div>
-              <div className="mini-card"><span className="mini-badge">LEGENDS</span><div className="mini-info"><div className="mini-name">Speaker Name</div><div className="mini-role">Ex-Founder, Angel</div></div></div>
+              {sessions.map((s, i) => (
+                <div className="mini-card" key={i}>
+                  <img src={s.photo} alt={s.speaker} loading="lazy" />
+                  <span className="mini-badge">LEGENDS</span>
+                  <div className="mini-info"><div className="mini-name">{s.speaker}</div><div className="mini-role">{s.company}</div></div>
+                </div>
+              ))}
             </div>
           </div>
         </div>
@@ -261,46 +272,12 @@ export default function App() {
         <div className="wrap">
           <span className="lbl">Our speakers come from</span>
           <div className="from-track">
-            <span className="from-chip">Fund Name</span>
-            <span className="from-chip">Growth Capital</span>
-            <span className="from-chip">Angel Syndicate</span>
-            <span className="from-chip">Family Office</span>
-            <span className="from-chip">Venture Partners</span>
-            <span className="from-chip">Seed Collective</span>
-            <span className="from-chip">Capital Group</span>
-            <span className="from-chip">Founders Fund</span>
-            <span className="from-chip">Horizon Ventures</span>
-            <span className="from-chip">Northline Capital</span>
-            <span className="from-chip">Bridge Partners</span>
-            <span className="from-chip">Alpine Investors</span>
-            <span className="from-chip">Summit Ventures</span>
-            <span className="from-chip">Vantage Capital</span>
-            <span className="from-chip">Anchor Fund</span>
-            <span className="from-chip">Meridian Partners</span>
-            <span className="from-chip">Cascade Ventures</span>
-            <span className="from-chip">Lighthouse Capital</span>
-            <span className="from-chip">Beacon Fund</span>
-            <span className="from-chip">Crestline Partners</span>
-            <span className="from-chip">Fund Name</span>
-            <span className="from-chip">Growth Capital</span>
-            <span className="from-chip">Angel Syndicate</span>
-            <span className="from-chip">Family Office</span>
-            <span className="from-chip">Venture Partners</span>
-            <span className="from-chip">Seed Collective</span>
-            <span className="from-chip">Capital Group</span>
-            <span className="from-chip">Founders Fund</span>
-            <span className="from-chip">Horizon Ventures</span>
-            <span className="from-chip">Northline Capital</span>
-            <span className="from-chip">Bridge Partners</span>
-            <span className="from-chip">Alpine Investors</span>
-            <span className="from-chip">Summit Ventures</span>
-            <span className="from-chip">Vantage Capital</span>
-            <span className="from-chip">Anchor Fund</span>
-            <span className="from-chip">Meridian Partners</span>
-            <span className="from-chip">Cascade Ventures</span>
-            <span className="from-chip">Lighthouse Capital</span>
-            <span className="from-chip">Beacon Fund</span>
-            <span className="from-chip">Crestline Partners</span>
+            {[...Array(2)].flatMap(() => [
+              "CapitalT", "Intuitio Ventures", "Felman Family Office", "Konsälidön", "Suvan Ventures",
+              "Al Siraj Holdings", "RVAI Global", "Bachmann Catalyst", "Exponential U", "Inbound LLC"
+            ]).map((name, i) => (
+              <span className="from-chip" key={i}>{name}</span>
+            ))}
           </div>
         </div>
       </section>
@@ -313,42 +290,17 @@ export default function App() {
           <p className="reveal" style={{marginTop: '14px', maxWidth: '600px', color: 'var(--muted-foreground)', fontSize: '1.14rem', lineHeight: '1.6'}}>Founders, investors, operators — different roles, one thing in common: they've actually done it.</p>
 
           <div className="speaker-grid-cards">
-            <div className="speaker-gc reveal">
-              <div className="speaker-gc-photo">SP</div>
-              <div className="speaker-gc-text">
-                <div className="speaker-gc-role">Founder &amp; Investor</div>
-                <div className="speaker-gc-company">Fund Name</div>
-                <div className="speaker-gc-name">Speaker Name</div>
-                <p className="speaker-gc-quote">"How to get a yes before you have revenue"</p>
+            {sessions.map((s, i) => (
+              <div className="speaker-gc reveal" key={i}>
+                <div className="speaker-gc-photo"><img src={s.photo} alt={s.speaker} loading="lazy" style={{width: '100%', height: '100%', objectFit: 'cover'}} /></div>
+                <div className="speaker-gc-text">
+                  <div className="speaker-gc-role">{s.traits}</div>
+                  <div className="speaker-gc-company">{s.company}</div>
+                  <div className="speaker-gc-name">{s.speaker}</div>
+                  <p className="speaker-gc-quote">"{s.title}"</p>
+                </div>
               </div>
-            </div>
-            <div className="speaker-gc reveal">
-              <div className="speaker-gc-photo">SP</div>
-              <div className="speaker-gc-text">
-                <div className="speaker-gc-role">Growth Investor</div>
-                <div className="speaker-gc-company">Fund Name</div>
-                <div className="speaker-gc-name">Speaker Name</div>
-                <p className="speaker-gc-quote">"The term sheet question most founders get wrong"</p>
-              </div>
-            </div>
-            <div className="speaker-gc reveal">
-              <div className="speaker-gc-photo">SP</div>
-              <div className="speaker-gc-text">
-                <div className="speaker-gc-role">Ex-Founder, Angel</div>
-                <div className="speaker-gc-company">Angel Investor</div>
-                <div className="speaker-gc-name">Speaker Name</div>
-                <p className="speaker-gc-quote">"What kills a deal in the first five minutes"</p>
-              </div>
-            </div>
-            <div className="speaker-gc reveal">
-              <div className="speaker-gc-photo">SP</div>
-              <div className="speaker-gc-text">
-                <div className="speaker-gc-role">Family Office</div>
-                <div className="speaker-gc-company">Office Name</div>
-                <div className="speaker-gc-name">Speaker Name</div>
-                <p className="speaker-gc-quote">"Why some $2M checks take longer than $20M ones"</p>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
       </section>
@@ -384,75 +336,26 @@ export default function App() {
         <div className="wrap">
           <p className="eyebrow reveal">This month</p>
           <h2 className="reveal" style={{marginTop: '16px', fontSize: 'clamp(1.6rem,3vw,2.2rem)'}}>The Lineup</h2>
-          <p className="reveal" style={{marginTop: '14px', maxWidth: '600px', color: 'var(--muted-foreground)', fontSize: '1.14rem', lineHeight: '1.6'}}>Four Tuesdays, four different investors. Click a row for the full session — names and titles below are placeholders, swap them in once confirmed.</p>
+          <p className="reveal" style={{marginTop: '14px', maxWidth: '600px', color: 'var(--muted-foreground)', fontSize: '1.14rem', lineHeight: '1.6'}}>Four Tuesdays, four different investors. Click a row for the full session.</p>
 
-          <div className="prog-row reveal" onClick={() => setSessionIndex(0)}>
-            <div>
-              <div className="prog-date">Tuesday, 6 October</div>
-              <div className="prog-title">How to Get a Yes Before You Have Revenue</div>
+          {sessions.map((s, i) => (
+            <div className="prog-row reveal" onClick={() => setSessionIndex(i)} key={i}>
+              <div>
+                <div className="prog-date">{s.date.replace('Tuesday, ', 'Tuesday, ').replace(' 2026', '')}</div>
+                <div className="prog-title">{s.title}</div>
+              </div>
+              <div className="prog-right">
+
+                <div className="prog-who">
+                <div className="prog-avatar"><img src={s.photo} alt={s.speaker} loading="lazy" style={{width: '100%', height: '100%', objectFit: 'cover', borderRadius: '999px'}} /></div>
+                <div><div className="prog-name">{s.speaker}</div><div className="prog-role">{s.traits}</div></div>
+              </div>
+
+                <div className="prog-expand">Details<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M8 4l8 8-8 8"/></svg></div>
+
+              </div>
             </div>
-            <div className="prog-right">
-
-              <div className="prog-who">
-              <div className="prog-avatar">SP</div>
-              <div><div className="prog-name">Speaker Name</div><div className="prog-role">Founder &amp; Investor</div></div>
-            </div>
-
-              <div className="prog-expand">Details<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M8 4l8 8-8 8"/></svg></div>
-
-            </div>
-          </div>
-
-          <div className="prog-row reveal" onClick={() => setSessionIndex(1)}>
-            <div>
-              <div className="prog-date">Tuesday, 13 October</div>
-              <div className="prog-title">The Term Sheet Question Most Founders Get Wrong</div>
-            </div>
-            <div className="prog-right">
-
-              <div className="prog-who">
-              <div className="prog-avatar">SP</div>
-              <div><div className="prog-name">Speaker Name</div><div className="prog-role">Growth Investor</div></div>
-            </div>
-
-              <div className="prog-expand">Details<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M8 4l8 8-8 8"/></svg></div>
-
-            </div>
-          </div>
-
-          <div className="prog-row reveal" onClick={() => setSessionIndex(2)}>
-            <div>
-              <div className="prog-date">Tuesday, 20 October</div>
-              <div className="prog-title">What Actually Kills a Deal in the First Five Minutes</div>
-            </div>
-            <div className="prog-right">
-
-              <div className="prog-who">
-              <div className="prog-avatar">SP</div>
-              <div><div className="prog-name">Speaker Name</div><div className="prog-role">Ex-Founder, Angel</div></div>
-            </div>
-
-              <div className="prog-expand">Details<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M8 4l8 8-8 8"/></svg></div>
-
-            </div>
-          </div>
-
-          <div className="prog-row reveal" onClick={() => setSessionIndex(3)}>
-            <div>
-              <div className="prog-date">Tuesday, 27 October</div>
-              <div className="prog-title">Why Some $2M Checks Take Longer Than $20M Ones</div>
-            </div>
-            <div className="prog-right">
-
-              <div className="prog-who">
-              <div className="prog-avatar">SP</div>
-              <div><div className="prog-name">Speaker Name</div><div className="prog-role">Family Office</div></div>
-            </div>
-
-              <div className="prog-expand">Details<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M8 4l8 8-8 8"/></svg></div>
-
-            </div>
-          </div>
+          ))}
         </div>
       </section>
 
@@ -463,6 +366,7 @@ export default function App() {
 
           {sessionIndex !== null && (
             <>
+              <img className="modal-photo" src={sessions[sessionIndex].photo} alt={sessions[sessionIndex].speaker} loading="lazy" />
               <div className="modal-name">{sessions[sessionIndex].speaker}</div>
               <div className="modal-date">{sessions[sessionIndex].date}</div>
               <div className="modal-traits">{sessions[sessionIndex].traits}</div>
@@ -540,7 +444,7 @@ export default function App() {
           <p className="reveal" style={{marginTop: '14px', maxWidth: '520px', marginLeft: 'auto', marginRight: 'auto', color: 'var(--muted-foreground)', fontSize: '1.02rem', lineHeight: '1.6'}}>Subscribe once and you're set for the whole month — no separate sign-up for each session, no re-applying every Tuesday.</p>
 
           <div className="price-block reveal">
-            <div className="price-amount">€<span id="priceAmount">—</span></div>
+            <div className="price-amount">€<span id="priceAmount">149</span></div>
             <div className="price-period">Per month · October 2026</div>
             <ul className="price-list">
               <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M20 6L9 17l-5-5"/></svg>All four InvestHack sessions this month</li>
