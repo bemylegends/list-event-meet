@@ -9,7 +9,7 @@ const sessions = [
     speaker: "Janneke Niessen",
     company: "Founding Partner, CapitalT",
     title: "How to Get a Yes Before You Have Revenue",
-    photo: "https://belegends.club/api/files/pbc_2443081517/nkx8sv2d9mrxvkq/janneke_niessen_l_q_mn6b93nrqu.png",
+    photo: "https://belegends.club/api/files/pbc_2443081517/nkx8sv2d9mrxvkq/janneke_niessen_l_1n3fn26cd9.png",
     about: "Founding Partner at CapitalT, serial entrepreneur and investor. Janneke co-founded DQ&amp;A and Improve Digital, scaled both internationally, and exited them before moving to the other side of the table.",
     bio: "Now backs pre-seed founders in Climate Tech and the Future of Work — typically committing €500K–€1.2M, and up to €2.5M for the right team, before there's a product or revenue to point to.",
     hear: "Her line on this: <i>\"Before revenue, the team is the evidence.\"</i> What she actually checks when there's no P&amp;L — and why two exits taught her to bet on people first."
@@ -21,7 +21,7 @@ const sessions = [
     speaker: "Varun Malik",
     company: "Founder, Konsälidön",
     title: "The Term Sheet Question Most Founders Get Wrong",
-    photo: "https://belegends.club/api/files/pbc_2443081517/m0nw01p7ifx5xus/varun_quote_doz79zzg7u.webp",
+    photo: "https://belegends.club/api/files/pbc_1321337024/hkbt1im79iet34j/varun_recap_speaking_ffywfml5jk.webp",
     about: "Founder of Konsälidön. Varun built and led consulting practices at PwC, Protiviti and Encreate, before stepping back from day-to-day operating roles to focus on what comes next.",
     bio: "His thesis now guides a run of micro-investments designed to help founders understand an exponential future, move past fear, and negotiate from a position that actually holds up.",
     hear: "Not valuation — leverage. Why the clause founders skim past is usually the one that decides who really controls the company."
@@ -33,7 +33,7 @@ const sessions = [
     speaker: "Walied Albasheer",
     company: "Managing Partner, Intuitio Ventures",
     title: "What Actually Kills a Deal in the First Five Minutes",
-    photo: "https://belegends.club/api/files/pbc_2443081517/limyhdr7l2k2qzo/walied_quote_6m7wfe64io.webp",
+    photo: "https://belegends.club/api/files/pbc_1321337024/o3lfehk0n70t7o6/walied_recap_speaker_kn68wsgc1i.webp",
     about: "Founder &amp; Managing Partner at Intuitio Ventures, and Founder &amp; CEO of Inbound LLC. Walied has been building and backing technology companies since 1996, across the UAE, Estonia and the US.",
     bio: "Author of <i>The Slop Stack</i>, a four-layer taxonomy of AI-generated mediocrity in startups. Has founded 7 companies (4 folded) and reviewed 265+ ventures through his own fund.",
     hear: "His line: <i>\"If you're a founder, you have to own your own numbers.\"</i> The tells that end a conversation before the deck is even open."
@@ -45,7 +45,7 @@ const sessions = [
     speaker: "Alex Felman",
     company: "General Partner, Felman Family Office",
     title: "Why Some $2M Checks Take Longer Than $20M Ones",
-    photo: "https://belegends.club/api/files/pbc_2443081517/kfzgg99w8mivqcf/alex_f_l_q_rd9qlb3hjv.png",
+    photo: "https://belegends.club/api/files/pbc_2443081517/kfzgg99w8mivqcf/alex_f_lend_tk1a658sfq.png",
     about: "General Partner at Felman Family Office and Founder of Exponential U. Trained in molecular toxicology and bio-entrepreneurship before moving into venture building and investing.",
     bio: "Leads technology investments across biotech, healthcare, agriculture and energy — roughly 90% direct, 10% via funds — with an 8–10 year minimum horizon and 1–2 years spent building the relationship before he commits.",
     hear: "His line: <i>\"Buy till exit.\"</i> Why check size and diligence speed don't move together the way founders assume."
