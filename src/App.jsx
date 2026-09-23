@@ -57,6 +57,10 @@ export default function App() {
   const [faqOpen, setFaqOpen] = useState(null);
   const heroTrackRef = useRef(null);
   const netCanvasRef = useRef(null);
+  const pinPhotosRef = useRef(null);
+  const pinFeatureRef = useRef(null);
+  const burgerRef = useRef(null);
+  const navLinksRef = useRef(null);
 
   function handleSubscribe() {
     alert("Subscription flow placeholder — wire this button up to your checkout.");
@@ -88,6 +92,165 @@ export default function App() {
     );
     els.forEach((el) => io.observe(el));
     return () => io.disconnect();
+  }, []);
+
+  // mobile burger menu: toggles the nav dropdown, closes on link click / outside click / resize back to desktop
+  useEffect(() => {
+    const burger = burgerRef.current;
+    const navLinksEl = navLinksRef.current;
+    if (!burger || !navLinksEl) return;
+
+    function closeMenu() {
+      navLinksEl.classList.remove("open");
+      burger.classList.remove("open");
+      burger.setAttribute("aria-expanded", "false");
+    }
+    function toggleMenu() {
+      const isOpen = navLinksEl.classList.toggle("open");
+      burger.classList.toggle("open", isOpen);
+      burger.setAttribute("aria-expanded", isOpen ? "true" : "false");
+    }
+    function onBurgerClick(e) { e.stopPropagation(); toggleMenu(); }
+    function onNavLinksClick(e) { if (e.target.tagName === "A") closeMenu(); }
+    function onOutsideClick(e) { if (!navLinksEl.contains(e.target) && e.target !== burger) closeMenu(); }
+    function onResize() { if (window.innerWidth >= 860) closeMenu(); }
+
+    burger.addEventListener("click", onBurgerClick);
+    navLinksEl.addEventListener("click", onNavLinksClick);
+    document.addEventListener("click", onOutsideClick);
+    window.addEventListener("resize", onResize);
+
+    return () => {
+      burger.removeEventListener("click", onBurgerClick);
+      navLinksEl.removeEventListener("click", onNavLinksClick);
+      document.removeEventListener("click", onOutsideClick);
+      window.removeEventListener("resize", onResize);
+    };
+  }, []);
+
+  // pinned parallax feature: sticky card with atmosphere shots + facts sweeping past on scroll
+  useEffect(() => {
+    const pinPhotos = pinPhotosRef.current;
+    const pinSection = pinFeatureRef.current;
+    if (!pinPhotos || !pinSection) return;
+
+    const atmosphere = [
+      { caption: "Where it starts", g: ["#E0A83D", "#BE8C2B"], img: "/atmo/atmo-venue.jpg" },
+      { caption: "The network, together", g: ["#D4AD5A", "#9C6E22"], img: "/atmo/atmo-group.jpg" },
+      { caption: "Where deals happen", g: ["#E7C066", "#B87F1E"], img: "/atmo/atmo-mingle.jpg" },
+      { caption: "Set for the room", g: ["#DDA83F", "#8F6420"], img: "/atmo/atmo-space.jpg" }
+    ];
+    const facts = [
+      { text: "Live, unscripted", bg: "#241A07", cls: "on-dark" },
+      { text: "One investor every Tuesday", bg: "linear-gradient(135deg,#E0A83D,#BE8C2B)", cls: "" },
+      { text: "4 Tuesdays this month", bg: "var(--surface-2)", cls: "bordered" },
+      { text: "Closed room after", bg: "var(--surface)", cls: "bordered" }
+    ];
+    const pinLayout = [
+      { top: "0%", left: "7%", w: 220, h: 230, from: 30, to: -25, type: "atmosphere", a: 0 },
+      { top: "3%", left: "40%", w: 220, h: 160, from: -32, to: 34, type: "fact", f: 0, mobileHide: true },
+      { top: "6%", left: "80%", w: 210, h: 190, from: -26, to: 30, type: "atmosphere", a: 1 },
+      { top: "46%", left: "11%", w: 210, h: 160, from: 32, to: -30, type: "fact", f: 3, mobileHide: true },
+      { top: "48%", left: "68%", w: 210, h: 160, from: -28, to: 32, type: "fact", f: 1, mobileHide: true },
+      { top: "80%", left: "5%", w: 220, h: 180, from: 26, to: -30, type: "atmosphere", a: 2 },
+      { top: "82%", left: "43%", w: 220, h: 150, from: 28, to: -34, type: "fact", f: 2, mobileHide: true },
+      { top: "76%", left: "77%", w: 210, h: 210, from: -30, to: 28, type: "atmosphere", a: 3 }
+    ];
+
+    const chips = pinLayout.map((spot) => {
+      const chip = document.createElement("div");
+      chip.className = "pin-chip";
+      chip.style.top = spot.top;
+      chip.style.left = spot.left;
+      chip.style.width = spot.w + "px";
+      chip.style.height = spot.h + "px";
+
+      if (spot.type === "atmosphere") {
+        const a = atmosphere[spot.a % atmosphere.length];
+        const fill = document.createElement("div");
+        fill.className = "photo-fill";
+        fill.style.background = `linear-gradient(135deg,${a.g[0]},${a.g[1]})`;
+        const img = document.createElement("img");
+        img.src = a.img;
+        img.alt = a.caption;
+        img.loading = "lazy";
+        img.onerror = () => img.remove();
+        fill.appendChild(img);
+        chip.appendChild(fill);
+        const cap = document.createElement("div");
+        cap.className = "cap";
+        cap.textContent = a.caption;
+        chip.appendChild(cap);
+      } else {
+        const fa = facts[spot.f % facts.length];
+        chip.classList.add("fact");
+        if (fa.cls) chip.classList.add(fa.cls);
+        chip.style.background = fa.bg;
+        const txt = document.createElement("span");
+        txt.className = "txt";
+        txt.textContent = fa.text;
+        chip.appendChild(txt);
+      }
+      pinPhotos.appendChild(chip);
+      return { el: chip, from: spot.from, to: spot.to };
+    });
+
+    let ticking = false;
+    let raf = null;
+    function updatePin() {
+      ticking = false;
+      const rect = pinSection.getBoundingClientRect();
+      const scrollable = rect.height - window.innerHeight;
+      const progress = scrollable > 0 ? Math.min(1, Math.max(0, -rect.top / scrollable)) : 0;
+      chips.forEach((c) => {
+        const vh = c.from + (c.to - c.from) * progress;
+        c.el.style.transform = `translate3d(0,${vh}vh,0)`;
+      });
+    }
+    function onScroll() {
+      if (!ticking) { raf = requestAnimationFrame(updatePin); ticking = true; }
+    }
+
+    // the desktop/reduced-motion gate isn't a one-time snapshot: re-evaluated whenever the
+    // matching media queries change (window resized across the 980px breakpoint, OS-level
+    // reduced-motion toggled) so the scroll listener attaches/detaches live instead of being
+    // frozen at whatever it happened to be at first mount.
+    const reduceQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const widthQuery = window.matchMedia("(max-width:980px)");
+    let listenerAttached = false;
+
+    function syncParallax() {
+      const shouldRun = !reduceQuery.matches && !widthQuery.matches;
+      if (shouldRun && !listenerAttached) {
+        window.addEventListener("scroll", onScroll, { passive: true });
+        window.addEventListener("resize", updatePin);
+        listenerAttached = true;
+        updatePin();
+      } else if (!shouldRun && listenerAttached) {
+        window.removeEventListener("scroll", onScroll);
+        window.removeEventListener("resize", updatePin);
+        listenerAttached = false;
+      }
+    }
+
+    syncParallax();
+    // double rAF: let the browser settle layout (fonts/images can shift section height right
+    // after mount) before trusting the first getBoundingClientRect() read
+    requestAnimationFrame(() => requestAnimationFrame(() => { if (listenerAttached) updatePin(); }));
+
+    reduceQuery.addEventListener("change", syncParallax);
+    widthQuery.addEventListener("change", syncParallax);
+
+    return () => {
+      if (listenerAttached) {
+        window.removeEventListener("scroll", onScroll);
+        window.removeEventListener("resize", updatePin);
+      }
+      reduceQuery.removeEventListener("change", syncParallax);
+      widthQuery.removeEventListener("change", syncParallax);
+      if (raf) cancelAnimationFrame(raf);
+      chips.forEach((c) => c.el.remove());
+    };
   }, []);
 
   // hero "coverflow" carousel — active card full size/opacity, neighbors scaled and dimmed
@@ -220,13 +383,17 @@ export default function App() {
     <>
     <header className="nav">
       <div className="nav-inner">
-        <div className="logo">LEGENDS</div>
-        <nav className="nav-links">
+        <div className="logo"><img src="/brand/legends-logo.png" alt="Legends" /></div>
+        <nav className="nav-links mobile-menu" id="navLinks" ref={navLinksRef}>
           <a href="#sessions">October Sessions</a>
           <a href="#how">How It Works</a>
           <a href="#pricing">Pricing</a>
+          <button className="btn btn-primary gold-fill btn-sm" onClick={handleSubscribe}>Subscribe</button>
         </nav>
-        <button className="btn btn-primary gold-fill btn-sm" onClick={handleSubscribe}>Subscribe</button>
+        <button className="btn btn-primary gold-fill btn-sm nav-subscribe-desktop" onClick={handleSubscribe}>Subscribe</button>
+        <button id="burgerBtn" className="burger" aria-label="Menu" aria-expanded="false" ref={burgerRef}>
+          <span></span><span></span><span></span>
+        </button>
       </div>
     </header>
 
@@ -267,17 +434,14 @@ export default function App() {
         </div>
       </section>
 
-      {/* FROM STRIP */}
-      <section className="from-strip">
-        <div className="wrap">
-          <span className="lbl">Our speakers come from</span>
-          <div className="from-track">
-            {[...Array(2)].flatMap(() => [
-              "CapitalT", "Intuitio Ventures", "Felman Family Office", "Konsälidön", "Suvan Ventures",
-              "Al Siraj Holdings", "RVAI Global", "Bachmann Catalyst", "Exponential U", "Inbound LLC"
-            ]).map((name, i) => (
-              <span className="from-chip" key={i}>{name}</span>
-            ))}
+      {/* PIN FEATURE — atmosphere parallax */}
+      <section className="pin-feature" id="pinFeature" ref={pinFeatureRef}>
+        <div className="pin-sticky">
+          <div className="pin-photos" id="pinPhotos" ref={pinPhotosRef}></div>
+          <div className="pin-card reveal">
+            <p className="eyebrow">Why InvestHack</p>
+            <h2>A real conversation, not a pitch deck.</h2>
+            <p>No stage, no script, no slides to hide behind. One investor, one hour, in a closed room — every Tuesday this October a different playbook, unscripted from the first question.</p>
           </div>
         </div>
       </section>
@@ -313,16 +477,19 @@ export default function App() {
 
           <div className="steps-grid">
             <div className="step-box reveal">
+              <div className="step-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 11h18"/><path d="M8 15.5h2M14 15.5h2"/></svg></div>
               <div className="step-num">01</div>
               <div className="step-title">Subscribe once</div>
               <p className="step-desc">One payment covers all four InvestHack sessions in October — no separate ticket for each Tuesday.</p>
             </div>
-            <div className="step-box reveal">
+            <div className="step-box gold reveal">
+              <div className="step-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4l16 8-16 8 4-8-4-8z"/></svg></div>
               <div className="step-num">02</div>
               <div className="step-title">Get the link every week</div>
               <p className="step-desc">An hour before each session, we email the link to the address you subscribed with and confirm your attendance.</p>
             </div>
-            <div className="step-box reveal">
+            <div className="step-box dark reveal">
+              <div className="step-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="6" width="15" height="12" rx="2"/><path d="M17 10l5-3v10l-5-3"/></svg></div>
               <div className="step-num">03</div>
               <div className="step-title">Join, then stay on if you're a member</div>
               <p className="step-desc">The open session streams live for everyone subscribed. Legends members can stay on for the closed room after.</p>
@@ -340,7 +507,8 @@ export default function App() {
 
           {sessions.map((s, i) => (
             <div className="prog-row reveal" onClick={() => setSessionIndex(i)} key={i}>
-              <div>
+              <div className="prog-num">{String(i + 1).padStart(2, '0')}</div>
+              <div className="prog-main">
                 <div className="prog-date">{s.date.replace('Tuesday, ', 'Tuesday, ').replace(' 2026', '')}</div>
                 <div className="prog-title">{s.title}</div>
               </div>
@@ -348,7 +516,7 @@ export default function App() {
 
                 <div className="prog-who">
                 <div className="prog-avatar"><img src={s.photo} alt={s.speaker} loading="lazy" style={{width: '100%', height: '100%', objectFit: 'cover', borderRadius: '999px'}} /></div>
-                <div><div className="prog-name">{s.speaker}</div><div className="prog-role">{s.traits}</div></div>
+                <div className="prog-who-text"><div className="prog-name">{s.speaker}</div><div className="prog-role">{s.traits}</div></div>
               </div>
 
                 <div className="prog-expand">Details<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M8 4l8 8-8 8"/></svg></div>
@@ -366,7 +534,7 @@ export default function App() {
 
           {sessionIndex !== null && (
             <>
-              <img className="modal-photo" src={sessions[sessionIndex].photo} alt={sessions[sessionIndex].speaker} loading="lazy" />
+              <img className="modal-photo modal-photo-hidden" src={sessions[sessionIndex].photo} alt={sessions[sessionIndex].speaker} loading="lazy" />
               <div className="modal-name">{sessions[sessionIndex].speaker}</div>
               <div className="modal-date">{sessions[sessionIndex].date}</div>
               <div className="modal-traits">{sessions[sessionIndex].traits}</div>
@@ -444,15 +612,16 @@ export default function App() {
           <p className="reveal" style={{marginTop: '14px', maxWidth: '520px', marginLeft: 'auto', marginRight: 'auto', color: 'var(--muted-foreground)', fontSize: '1.02rem', lineHeight: '1.6'}}>Subscribe once and you're set for the whole month — no separate sign-up for each session, no re-applying every Tuesday.</p>
 
           <div className="price-block reveal">
-            <div className="price-amount">€<span id="priceAmount">149</span></div>
+            <span className="price-badge">4 Tuesdays included</span>
+            <div className="price-amount"><span className="price-currency">€</span><span id="priceAmount">149</span></div>
             <div className="price-period">Per month · October 2026</div>
             <ul className="price-list">
-              <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M20 6L9 17l-5-5"/></svg>All four InvestHack sessions this month</li>
-              <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M20 6L9 17l-5-5"/></svg>The link emailed an hour before each session</li>
-              <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M20 6L9 17l-5-5"/></svg>Live Q&amp;A with each week's investor</li>
-              <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M20 6L9 17l-5-5"/></svg>Closed room access if you're a Legends member</li>
+              <li><span className="price-check"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>All four InvestHack sessions this month</li>
+              <li><span className="price-check"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>The link emailed an hour before each session</li>
+              <li><span className="price-check"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>Live Q&amp;A with each week's investor</li>
+              <li><span className="price-check"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>Closed room access if you're a Legends member</li>
             </ul>
-            <button className="btn btn-primary gold-fill" style={{width: '100%', justifyContent: 'center', marginTop: '26px'}} onClick={handleSubscribe}>Subscribe for October →</button>
+            <button className="btn btn-primary gold-fill" style={{width: '100%', justifyContent: 'center', marginTop: '30px'}} onClick={handleSubscribe}>Subscribe for October →</button>
             <p className="price-note">Renews monthly. Cancel anytime before the next cycle starts.</p>
           </div>
         </div>
@@ -489,6 +658,7 @@ export default function App() {
       <section>
         <div className="wrap">
           <div className="final-cta reveal">
+            <div className="final-cta-icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M4 5.5h13v8H10l-4.5 4v-4H4z"/></svg></div>
             <p className="eyebrow">Subscribe</p>
             <h2>Don't miss this Tuesday</h2>
             <p>One subscription, every InvestHack session in October included.</p>
@@ -504,18 +674,63 @@ export default function App() {
           <h2 className="reveal" style={{marginTop: '16px', fontSize: 'clamp(1.8rem,3.6vw,2.5rem)', maxWidth: '600px'}}>The AI-powered private network behind what's next.</h2>
           <p className="reveal" style={{marginTop: '18px', maxWidth: '640px', fontSize: '1.05rem', lineHeight: '1.65', color: 'var(--muted-foreground)'}}>Legends puts the most active cross-border founders, CEOs and investors in one room — to swap what works and back each other when things get rough. Sessions like this InvestHack are the way in. Membership opens by invitation, to those who take part.</p>
 
-          <div className="pillars reveal">
-            <span className="pillar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M3 10l9-6 9 6"/><path d="M5 10v9M10 10v9M14 10v9M19 10v9"/><path d="M3 19h18"/></svg>Capital</span>
-            <span className="pillar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="6" cy="7" r="2.5"/><circle cx="18" cy="7" r="2.5"/><circle cx="12" cy="18" r="2.5"/><path d="M8 8.3L10.3 16M16 8.3L13.7 16"/></svg>Connections</span>
-            <span className="pillar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M12 3l1.6 4.8L18 9l-4.4 1.2L12 15l-1.6-4.8L6 9l4.4-1.2z"/><path d="M19 15l.7 2 2 .7-2 .7-.7 2-.7-2-2-.7 2-.7z"/></svg>Experiences</span>
-            <span className="pillar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M9 18V5l10-2v13"/><circle cx="6" cy="18" r="2.5"/><circle cx="16" cy="16" r="2.5"/></svg>Culture</span>
-            <span className="pillar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r="0.8"/></svg>Impact</span>
+          <div className="pillars-row">
+            <span className="pillar reveal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M3 10l9-6 9 6"/><path d="M5 10v9M10 10v9M14 10v9M19 10v9"/><path d="M3 19h18"/></svg>Capital</span>
+            <span className="pillar reveal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="6" cy="7" r="2.5"/><circle cx="18" cy="7" r="2.5"/><circle cx="12" cy="18" r="2.5"/><path d="M8 8.3L10.3 16M16 8.3L13.7 16"/></svg>Connections</span>
+            <span className="pillar reveal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M12 3l1.6 4.8L18 9l-4.4 1.2L12 15l-1.6-4.8L6 9l4.4-1.2z"/><path d="M19 15l.7 2 2 .7-2 .7-.7 2-.7-2-2-.7 2-.7z"/></svg>Experiences</span>
+            <span className="pillar reveal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M9 18V5l10-2v13"/><circle cx="6" cy="18" r="2.5"/><circle cx="16" cy="16" r="2.5"/></svg>Culture</span>
+            <span className="pillar reveal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r="0.8"/></svg>Impact</span>
           </div>
 
-          <div className="legends-stats reveal">
-            <div className="legends-stat"><span className="num">1,300+</span><span className="cap">Matchmakings<br />in GCC</span></div>
-            <div className="legends-stat"><span className="num">80+</span><span className="cap">Private<br />gatherings</span></div>
-            <div className="legends-stat"><span className="num">30+</span><span className="cap">Countries<br />represented</span></div>
+          <div className="more-grid">
+            <div className="more-card reveal">
+              <span className="mc-label">Reach</span>
+              <span className="mc-num">1,300+</span>
+              <p>Matchmakings made across the GCC network.</p>
+            </div>
+            <div className="more-card dark reveal">
+              <span className="mc-label">In person</span>
+              <span className="mc-num">80+</span>
+              <p>Private gatherings hosted for the network.</p>
+            </div>
+            <div className="more-card gold reveal">
+              <span className="mc-label">Global</span>
+              <span className="mc-num">30+</span>
+              <p>Countries represented among members.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* WHO IT'S FOR */}
+      <section className="fornot">
+        <div className="wrap">
+          <p className="eyebrow reveal">Who it's for</p>
+          <h2 className="reveal" style={{marginTop: '16px', fontSize: 'clamp(1.6rem,3vw,2.2rem)'}}>Come for the right reason</h2>
+
+          <div className="fornot-grid">
+            <div className="fornot-col yes reveal">
+              <span className="fornot-badge yes"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>
+              <h3>Come if you are</h3>
+              <ul>
+                <li><span className="fornot-icon yes"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>An active investor, founder or operator who wants direct access to one great investor conversation a month</li>
+                <li><span className="fornot-icon yes"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>Someone who values a small, closed room over a big conference stage</li>
+                <li><span className="fornot-icon yes"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>Looking to build real relationships, not just collect contacts</li>
+                <li><span className="fornot-icon yes"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>Curious how different investors actually think, week to week</li>
+                <li><span className="fornot-icon yes"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>Ready to show up live — this isn't a replay you catch later</li>
+              </ul>
+            </div>
+            <div className="fornot-col no reveal">
+              <span className="fornot-badge no"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg></span>
+              <h3>Not for you if</h3>
+              <ul>
+                <li><span className="fornot-icon no"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg></span>You're looking for a sales pitch or a lead-gen event</li>
+                <li><span className="fornot-icon no"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg></span>You want a large public conference with hundreds of attendees</li>
+                <li><span className="fornot-icon no"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg></span>You can't commit to the confidentiality of a closed room</li>
+                <li><span className="fornot-icon no"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg></span>You're after a highlight reel, not the actual conversation</li>
+                <li><span className="fornot-icon no"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg></span>You'd rather watch a recap later than join the Tuesday session</li>
+              </ul>
+            </div>
           </div>
         </div>
       </section>
@@ -523,7 +738,18 @@ export default function App() {
 
     <footer>
       <div className="wrap foot-inner">
-        <div className="logo">LEGENDS</div>
+        <div>
+          <div className="logo"><img src="/brand/legends-logo.png" alt="Legends" /></div>
+          <div className="foot-tagline">InvestHack — one investor, every Tuesday this October.</div>
+        </div>
+        <nav className="foot-links">
+          <a href="#sessions">Sessions</a>
+          <a href="#how">How It Works</a>
+          <a href="#pricing">Pricing</a>
+          <a href="#faq">FAQ</a>
+        </nav>
+      </div>
+      <div className="wrap">
         <div className="foot-note">© 2026 Legends. InvestHack runs weekly, online, by subscription.</div>
       </div>
     </footer>
