@@ -707,7 +707,7 @@ export default function App() {
 
           <div className="price-block reveal">
             <span className="price-badge">4 Tuesdays included</span>
-            <div className="price-amount"><span className="price-currency">€</span><span id="priceAmount">149</span></div>
+            <div className="price-amount"><span className="price-currency">€</span><span id="priceAmount">100</span></div>
             <div className="price-period">Per month · October 2026</div>
             <ul className="price-list">
               <li><span className="price-check"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>All four InvestHack sessions this month</li>
