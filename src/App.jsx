@@ -12,7 +12,9 @@ const sessions = [
     photo: "https://belegends.club/api/files/pbc_2443081517/nkx8sv2d9mrxvkq/janneke_niessen_l_1n3fn26cd9.png",
     about: "Founding Partner at CapitalT, serial entrepreneur and investor. Janneke co-founded DQ&amp;A and Improve Digital, scaled both internationally, and exited them before moving to the other side of the table.",
     bio: "Now backs pre-seed founders in Climate Tech and the Future of Work — typically committing €500K–€1.2M, and up to €2.5M for the right team, before there's a product or revenue to point to.",
-    hear: "Her line on this: <i>\"Before revenue, the team is the evidence.\"</i> What she actually checks when there's no P&amp;L — and why two exits taught her to bet on people first."
+    hear: "Her line on this: <i>\"Before revenue, the team is the evidence.\"</i> What she actually checks when there's no P&amp;L — and why two exits taught her to bet on people first.",
+    time: "5:00 PM Dubai · 2:00 PM London · 9:00 AM New York",
+    online: true
   },
   {
     tag: "InvestHack <b>#07</b>",
@@ -24,7 +26,9 @@ const sessions = [
     photo: "https://belegends.club/api/files/pbc_2443081517/m0nw01p7ifx5xus/varun_baner_8miqz1fy27.webp",
     about: "Founder of Konsälidön. Varun built and led consulting practices at PwC, Protiviti and Encreate, before stepping back from day-to-day operating roles to focus on what comes next.",
     bio: "His thesis now guides a run of micro-investments designed to help founders understand an exponential future, move past fear, and negotiate from a position that actually holds up.",
-    hear: "Not valuation — leverage. Why the clause founders skim past is usually the one that decides who really controls the company."
+    hear: "Not valuation — leverage. Why the clause founders skim past is usually the one that decides who really controls the company.",
+    time: "5:00 PM Dubai · 2:00 PM London · 9:00 AM New York",
+    online: true
   },
   {
     tag: "InvestHack <b>#08</b>",
@@ -36,7 +40,9 @@ const sessions = [
     photo: "https://belegends.club/api/files/pbc_2443081517/limyhdr7l2k2qzo/walied_baner_4uq2nlyted.webp",
     about: "Founder &amp; Managing Partner at Intuitio Ventures, and Founder &amp; CEO of Inbound LLC. Walied has been building and backing technology companies since 1996, across the UAE, Estonia and the US.",
     bio: "Author of <i>The Slop Stack</i>, a four-layer taxonomy of AI-generated mediocrity in startups. Has founded 7 companies (4 folded) and reviewed 265+ ventures through his own fund.",
-    hear: "His line: <i>\"If you're a founder, you have to own your own numbers.\"</i> The tells that end a conversation before the deck is even open."
+    hear: "His line: <i>\"If you're a founder, you have to own your own numbers.\"</i> The tells that end a conversation before the deck is even open.",
+    time: "5:00 PM Dubai · 2:00 PM London · 9:00 AM New York",
+    online: true
   },
   {
     tag: "InvestHack <b>#09</b>",
@@ -48,13 +54,21 @@ const sessions = [
     photo: "https://belegends.club/api/files/pbc_2443081517/kfzgg99w8mivqcf/alex_f_lend_tk1a658sfq.png",
     about: "General Partner at Felman Family Office and Founder of Exponential U. Trained in molecular toxicology and bio-entrepreneurship before moving into venture building and investing.",
     bio: "Leads technology investments across biotech, healthcare, agriculture and energy — roughly 90% direct, 10% via funds — with an 8–10 year minimum horizon and 1–2 years spent building the relationship before he commits.",
-    hear: "His line: <i>\"Buy till exit.\"</i> Why check size and diligence speed don't move together the way founders assume."
+    hear: "His line: <i>\"Buy till exit.\"</i> Why check size and diligence speed don't move together the way founders assume.",
+    time: "5:00 PM Dubai · 2:00 PM London · 9:00 AM New York",
+    online: true
   }
 ];
+
+// TODO: replace with the real Legends WhatsApp Business number (digits only, country code, no "+").
+const WHATSAPP_NUMBER = "971500000000";
 
 export default function App() {
   const [sessionIndex, setSessionIndex] = useState(null);
   const [faqOpen, setFaqOpen] = useState(null);
+  const [subscribeOpen, setSubscribeOpen] = useState(false);
+  const [subscribeStep, setSubscribeStep] = useState("form");
+  const [subscribeForm, setSubscribeForm] = useState({ name: "", email: "", phone: "", linkedin: "", consent: false });
   const heroTrackRef = useRef(null);
   const netCanvasRef = useRef(null);
   const pinPhotosRef = useRef(null);
@@ -63,18 +77,44 @@ export default function App() {
   const navLinksRef = useRef(null);
 
   function handleSubscribe() {
-    alert("Subscription flow placeholder — wire this button up to your checkout.");
+    setSubscribeStep("form");
+    setSubscribeOpen(true);
   }
 
-  // lock body scroll while the session modal is open, and close it on Escape
+  function closeSubscribe() {
+    setSubscribeOpen(false);
+    // reset for next time, after the close transition would have finished
+    setTimeout(() => {
+      setSubscribeStep("form");
+      setSubscribeForm({ name: "", email: "", phone: "", linkedin: "", consent: false });
+    }, 200);
+  }
+
+  function updateSubscribeField(field, value) {
+    setSubscribeForm((f) => ({ ...f, [field]: value }));
+  }
+
+  function handleSubscribeSubmit(e) {
+    e.preventDefault();
+    // No backend wired up yet — this just advances to the confirmation step.
+    // Swap this for a real submit (fetch/Formspree/etc.) when there's an endpoint to send it to.
+    setSubscribeStep("success");
+  }
+
+  const whatsappMessage = 'Hi, Legends Team\n\nI want to confirm my attendance at InvestHack — October 2026\n\nThanks!';
+  const whatsappHref = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(whatsappMessage)}`;
+
+  // lock body scroll while a modal (session detail or subscribe) is open, and close on Escape
   useEffect(() => {
-    document.body.style.overflow = sessionIndex !== null ? "hidden" : "";
+    document.body.style.overflow = (sessionIndex !== null || subscribeOpen) ? "hidden" : "";
     function onKey(e) {
-      if (e.key === "Escape") setSessionIndex(null);
+      if (e.key !== "Escape") return;
+      if (subscribeOpen) closeSubscribe();
+      else setSessionIndex(null);
     }
     document.addEventListener("keydown", onKey);
     return () => document.removeEventListener("keydown", onKey);
-  }, [sessionIndex]);
+  }, [sessionIndex, subscribeOpen]);
 
   // fade-and-rise reveal animation for elements with the "reveal" class
   useEffect(() => {
@@ -405,14 +445,14 @@ export default function App() {
           <div className="hero-copy">
             <p className="eyebrow reveal">InvestHack · October 2026</p>
             <h1 className="title reveal">Four Tuesdays<br />Four investors<br /><span className="gold-text">One subscription</span></h1>
-            <p className="hero-sub reveal">A new investor every Tuesday — live, unscripted, then a closed room for members.</p>
+            <p className="hero-sub reveal">A new investor every Tuesday — live, unscripted, then a closed room for members. No stage, no soundbite cut for LinkedIn, no deck between you and the decision. Just one hour, one investor, the real reasoning behind their last yes.</p>
 
             <div className="hero-meta reveal">
-              <span className="item"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="2" y="6" width="15" height="12" rx="2"/><path d="M17 10l5-3v10l-5-3"/></svg>Online</span>
+              <span className="item item-live"><span className="live-dot"></span>Live online</span>
               <span className="sep"></span>
-              <span className="item">4 sessions</span>
+              <span className="item"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 11h18"/></svg>4 sessions</span>
             </div>
-            <p className="hero-tz reveal"><b>5:00 PM</b> Dubai · <b>2:00 PM</b> London · <b>9:00 AM</b> New York</p>
+            <p className="hero-tz reveal"><span className="tz-label">Session time, every Tuesday</span><span className="tz-value"><b>5:00 PM</b> Dubai<span className="tz-div">/</span><b>2:00 PM</b> London<span className="tz-div">/</span><b>9:00 AM</b> New York</span></p>
 
             <div className="hero-cta reveal">
               <button className="btn btn-primary gold-fill" onClick={handleSubscribe}>Subscribe for October →</button>
@@ -510,6 +550,7 @@ export default function App() {
               <div className="prog-num">{String(i + 1).padStart(2, '0')}</div>
               <div className="prog-main">
                 <div className="prog-date">{s.date.replace('Tuesday, ', 'Tuesday, ').replace(' 2026', '')}</div>
+                <div className="prog-time"><span className="prog-time-online">{s.online ? 'Live online' : 'In person'}</span><span className="prog-time-value">{s.time}</span></div>
                 <div className="prog-title">{s.title}</div>
               </div>
               <div className="prog-right">
@@ -558,6 +599,59 @@ export default function App() {
                 <button className="btn btn-primary gold-fill btn-sm" onClick={handleSubscribe}>Apply to Join</button>
               </div>
             </>
+          )}
+        </div>
+      </div>
+
+      {/* SUBSCRIBE MODAL */}
+      <div className={`overlay${subscribeOpen ? ' open' : ''}`} onClick={(e) => { if (e.target === e.currentTarget) closeSubscribe(); }}>
+        <div className="modal subscribe-modal">
+          <button className="modal-close" onClick={closeSubscribe}>✕</button>
+
+          {subscribeStep === "form" && (
+            <>
+              <p className="eyebrow">InvestHack · October 2026</p>
+              <div className="modal-title" style={{marginTop: '10px'}}>Subscribe for October</div>
+              <p className="modal-traits" style={{marginTop: '10px'}}>Four Tuesdays, four investors, one closed room. Tell us a bit about you and we'll review your application.</p>
+
+              <form className="subscribe-form" onSubmit={handleSubscribeSubmit}>
+                <label className="form-field">
+                  <span>Full name *</span>
+                  <input type="text" required value={subscribeForm.name} onChange={(e) => updateSubscribeField("name", e.target.value)} placeholder="Jane Doe" />
+                </label>
+                <label className="form-field">
+                  <span>Email *</span>
+                  <input type="email" required value={subscribeForm.email} onChange={(e) => updateSubscribeField("email", e.target.value)} placeholder="jane@company.com" />
+                </label>
+                <label className="form-field">
+                  <span>Phone (with country code) *</span>
+                  <input type="tel" required value={subscribeForm.phone} onChange={(e) => updateSubscribeField("phone", e.target.value)} placeholder="+971 50 000 0000" />
+                </label>
+                <label className="form-field">
+                  <span>LinkedIn URL</span>
+                  <input type="url" value={subscribeForm.linkedin} onChange={(e) => updateSubscribeField("linkedin", e.target.value)} placeholder="linkedin.com/in/janedoe" />
+                </label>
+                <label className="form-consent">
+                  <input type="checkbox" required checked={subscribeForm.consent} onChange={(e) => updateSubscribeField("consent", e.target.checked)} />
+                  <span>I agree to be contacted about this application and future Legends events by phone, SMS and messaging apps (including WhatsApp).</span>
+                </label>
+                <button type="submit" className="btn btn-primary gold-fill" style={{width: '100%', justifyContent: 'center', marginTop: '6px'}}>Submit · We'll review &amp; be in touch →</button>
+              </form>
+            </>
+          )}
+
+          {subscribeStep === "success" && (
+            <div className="subscribe-success">
+              <div className="subscribe-success-icon">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M20 6L9 17l-5-5"/></svg>
+              </div>
+              <div className="modal-title" style={{marginTop: '18px'}}>Thank you!</div>
+              <p className="modal-traits" style={{marginTop: '10px', fontSize: '1rem'}}>Application received and pre-approved. For the final confirmation, message our team on WhatsApp.</p>
+              <a href={whatsappHref} target="_blank" rel="noopener" className="btn btn-primary gold-fill whatsapp-btn" style={{width: '100%', justifyContent: 'center', marginTop: '22px'}}>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38a9.9 9.9 0 0 0 4.74 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.13-2.9-7C17.17 3.03 14.69 2 12.04 2zm5.8 14.05c-.24.68-1.19 1.25-1.96 1.41-.52.11-1.2.2-3.5-.75-2.94-1.22-4.83-4.2-4.98-4.4-.15-.19-1.2-1.6-1.2-3.05 0-1.45.76-2.16 1.03-2.46.27-.3.59-.37.79-.37.2 0 .39 0 .56.01.18.01.42-.07.65.5.24.58.83 2.02.9 2.16.07.15.12.32.02.51-.1.19-.15.31-.3.48-.15.17-.31.38-.44.51-.15.15-.3.31-.13.6.17.3.76 1.25 1.63 2.03 1.12 1 2.06 1.31 2.36 1.46.3.15.48.13.65-.08.18-.2.75-.87.95-1.17.2-.3.4-.25.67-.15.28.1 1.76.83 2.06.98.3.15.5.23.58.35.08.13.08.75-.15 1.43z"/></svg>
+                Confirm on WhatsApp
+              </a>
+            </div>
           )}
         </div>
       </div>
